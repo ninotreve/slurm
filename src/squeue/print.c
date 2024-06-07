@@ -391,6 +391,9 @@ int _print_time(time_t t, int level, int width, bool right)
 	if (t) {
 		char time_str[256];
 		slurm_make_time_str(&t, time_str, sizeof(time_str));
+		time_str[4] = '/';
+		time_str[7] = '/';
+		time_str[10] = ' ';
 		_print_str(time_str, width, right, true);
 	} else
 		_print_str("N/A", width, right, true);
@@ -2298,6 +2301,26 @@ int _print_job_tres_per_node(job_info_t *job, int width,
 			     bool right_justify, char *suffix)
 {
 	if (job == NULL) {
+		_print_str("GPUS", width, right_justify, true);
+	} else {
+		if (job->tres_per_node)
+			_print_str(job->tres_per_node+9, width,
+				   right_justify, true);
+		else
+			_print_str("N/A", width,
+				   right_justify, true);
+
+	}
+	if (suffix)
+		printf("%s", suffix);
+	return SLURM_SUCCESS;
+}
+
+/*
+int _print_job_tres_per_node(job_info_t *job, int width,
+			     bool right_justify, char *suffix)
+{
+	if (job == NULL) {
 		_print_str("TRES_PER_NODE", width, right_justify, true);
 	} else {
 		if (job->tres_per_node)
@@ -2312,6 +2335,7 @@ int _print_job_tres_per_node(job_info_t *job, int width,
 		printf("%s", suffix);
 	return SLURM_SUCCESS;
 }
+*/
 
 int _print_job_tres_per_socket(job_info_t *job, int width,
 			       bool right_justify, char *suffix)
