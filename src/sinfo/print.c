@@ -490,12 +490,14 @@ int _print_cpus_aiot(sinfo_data_t * sinfo_data, int width,
 {
 	char id[FORMAT_STRING_SIZE];
 	if (sinfo_data) {
-		snprintf(id, FORMAT_STRING_SIZE, "%u/%u/%u/%u",
-			 sinfo_data->cpus_alloc, sinfo_data->cpus_idle,
-			 sinfo_data->cpus_other, sinfo_data->cpus_total);
+		// snprintf(id, FORMAT_STRING_SIZE, "%u/%u/%u/%u",
+		// 	 sinfo_data->cpus_alloc, sinfo_data->cpus_idle,
+		// 	 sinfo_data->cpus_other, sinfo_data->cpus_total);
+		snprintf(id, FORMAT_STRING_SIZE, "%u/%u",
+			 sinfo_data->cpus_idle, sinfo_data->cpus_total);
 		_print_str(id, width, right_justify, true);
 	} else
-		_print_str("CPUS(A/I/O/T)", width, right_justify, true);
+		_print_str("CPUS(Avail/Total)", width, right_justify, true);
 	if (suffix)
 		printf("%s", suffix);
 	return SLURM_SUCCESS;
